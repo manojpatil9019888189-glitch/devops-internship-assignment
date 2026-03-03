@@ -1,377 +1,342 @@
-Lemici DevOps Internship Assignment
+# Lemici DevOps Internship Assignment
 
-Task 1 – Repository Setup Using SSH
+## Part 1: Version Control
+
+### Task 1 - Repository Setup Using SSH
 
 The repository was created on GitHub and configured using SSH authentication.
 
-SSH keys were generated locally using ssh-keygen.
+- SSH keys were generated locally using `ssh-keygen`.
+- The public key was added to GitHub under **SSH & GPG Keys**.
+- The repository was cloned using the SSH URL.
+- Git operations (`clone`, `pull`, `push`) work without username/password, confirming successful SSH configuration.
 
-The public key was added to GitHub under SSH & GPG Keys.
+### Task 2 - Difference Between `git fetch` and `git pull`
 
-The repository was cloned using the SSH URL.
+#### `git fetch`
 
-Git operations (clone, pull, push) work without username/password, confirming successful SSH configuration.
+- Downloads new data (commits, branches, files) from the remote repository.
+- Does **not** modify the current working branch.
+- Updates only the remote-tracking branch (for example, `origin/main`).
+- Provides more control because changes can be reviewed before merging.
+- Does not cause merge conflicts directly.
+- Used when you want to safely inspect changes before integrating them.
 
-Task 2 – Difference Between git fetch and git pull
-git fetch
+#### `git pull`
 
-Downloads new data (commits, branches, files) from the remote repository.
+- Downloads changes **and** immediately merges them into the current branch.
+- Automatically updates the local branch.
+- Provides less control since integration happens immediately.
+- Can cause merge conflicts if local and remote changes differ.
+- Used when you want to quickly synchronize your branch.
 
-Does NOT modify the current working branch.
-
-Updates only the remote tracking branch (e.g., origin/main).
-
-Provides more control because changes can be reviewed before merging.
-
-Does not cause merge conflicts directly.
-
-Used when you want to safely inspect changes before integrating them.
-
-git pull
-
-Downloads changes AND immediately merges them into the current branch.
-
-Automatically updates the local branch.
-
-Provides less control since integration happens immediately.
-
-Can cause merge conflicts if local and remote changes differ.
-
-Used when you want to quickly synchronize your branch.
-
-Task 3 – How to Resolve a Git Merge Conflict (Example Scenario)
+### Task 3 - How to Resolve a Git Merge Conflict (Example Scenario)
 
 A merge conflict occurs when two branches modify the same line in a file differently.
 
-Example:
+**Example scenario:**
 
-Two feature branches modify the same configuration value.
+- Two feature branches modify the same configuration value.
+- The first branch merges successfully.
+- When merging the second branch, Git cannot automatically decide which change to keep.
+- Git pauses the merge and marks the conflict using conflict markers.
 
-The first branch merges successfully.
+**To resolve:**
 
-When merging the second branch, Git cannot automatically decide which change to keep.
+1. Open the conflicted file.
+2. Review the conflicting sections.
+3. Decide which changes to keep (or combine them).
+4. Remove conflict markers.
+5. Stage and commit the resolved file.
 
-Git pauses the merge and marks the conflict using conflict markers.
-
-To resolve:
-
-Open the conflicted file.
-
-Review the conflicting sections.
-
-Decide which changes to keep (or combine them).
-
-Remove conflict markers.
-
-Stage and commit the resolved file.
-
-Task 4 – Practical Demonstration of Merge Conflict
+### Task 4 - Practical Demonstration of Merge Conflict
 
 A merge conflict was intentionally simulated.
 
-A configuration file (config.yaml) was created in the main branch.
+- A configuration file (`config.yaml`) was created in the `main` branch.
+- Two branches (`feature-A` and `feature-B`) were created.
+- In `feature-A`, a value such as `log_level` was changed to `debug`.
+- In `feature-B`, the same value was changed to `error`.
+- After merging `feature-A`, merging `feature-B` caused a conflict because the same line was modified differently.
+- The file was manually reviewed, conflict markers were removed, and a final meaningful value was selected.
+- The resolved file was staged and committed with the message:
 
-Two branches (feature-A and feature-B) were created.
-
-In feature-A, a value such as log_level was changed to debug.
-
-In feature-B, the same value was changed to error.
-
-After merging feature-A, merging feature-B caused a conflict because the same line was modified differently.
-
-The file was manually reviewed, conflict markers were removed, and a final meaningful value was selected.
-The resolved file was staged and committed with the message:
-
-"Resolved merge conflict in config.yaml"
+```text
+Resolved merge conflict in config.yaml
+```
 
 This demonstrated practical conflict resolution using Git.
 
-Part 2: Docker & Containerization
-Task 1 – Dummy Python Web Application
+## Part 2: Docker & Containerization
+
+### Task 1 - Dummy Python Web Application
 
 A simple Flask-based Python web application was created.
 
 The application:
 
-Exposes / endpoint returning:
+- Exposes `/` endpoint returning `"DevOps Internship Assignment Working!"`
+- Runs on port `5000`
+- Binds to `0.0.0.0` to allow external access from the container
 
-"DevOps Internship Assignment Working!"
-
-Runs on port 5000.
-
-Binds to 0.0.0.0 to allow external access from the container.
-
-Dockerfile
+#### Dockerfile
 
 The application was containerized using a Dockerfile.
 
-Key points:
+**Key points:**
 
-Base image: python:3.9-slim
+- Base image: `python:3.9-slim`
+- Working directory: `/app`
+- Application files copied into container
+- Flask installed using `pip`
+- Port `5000` exposed
+- Application started using:
 
-Working directory: /app
-
-Application files copied into container
-
-Flask installed using pip
-
-Port 5000 exposed
-
-Application started using:
-
+```bash
 python app.py
-Task 2 – Difference Between Dockerfile, Image, and Container
+```
 
-Dockerfile: A text file containing instructions to build a Docker image.
+### Task 2 - Difference Between Dockerfile, Image, and Container
 
-Docker Image: A packaged, read-only template created from a Dockerfile.
+- **Dockerfile:** A text file containing instructions to build a Docker image.
+- **Docker Image:** A packaged, read-only template created from a Dockerfile.
+- **Docker Container:** A running instance of a Docker image.
 
-Docker Container: A running instance of a Docker image.
-
-Reducing Docker Image Size
+#### Reducing Docker Image Size
 
 To optimize image size:
 
-Used python:3.9-slim base image.
+- Used `python:3.9-slim` base image
+- Installed only required dependencies
+- Avoided unnecessary files
+- Used layer caching efficiently
 
-Installed only required dependencies.
-
-Avoided unnecessary files.
-
-Used layer caching efficiently.
-
-Task 3 – Running the Application Locally
+### Task 3 - Running the Application Locally
 
 Steps performed:
 
-Built Docker image:
+1. Build Docker image:
 
+```bash
 docker build -t devops-app .
+```
 
-Ran container:
+2. Run container:
 
+```bash
 docker run -p 5000:5000 devops-app
+```
 
-Verified in browser:
+3. Verify in browser:
 
+```text
 http://localhost:5000
+```
 
 The application successfully displayed the expected message.
 
-Part 3: Kubernetes (EKS Basics)
-Task 1 – Difference Between Pod, Deployment, and Service
-Pod
+## Part 3: Kubernetes (EKS Basics)
 
-Smallest deployable unit in Kubernetes.
+### Task 1 - Difference Between Pod, Deployment, and Service
 
-Encapsulates one or more containers.
+#### Pod
 
-Represents a single instance of an application.
+- Smallest deployable unit in Kubernetes
+- Encapsulates one or more containers
+- Represents a single instance of an application
 
-Deployment
+#### Deployment
 
-Manages ReplicaSets and Pods.
+- Manages ReplicaSets and Pods
+- Ensures desired number of replicas
+- Supports rolling updates and rollbacks
 
-Ensures desired number of replicas.
+#### Service
 
-Supports rolling updates and rollbacks.
+- Exposes a group of Pods
+- Provides stable IP and DNS
+- Load balances traffic
 
-Service
-
-Exposes a group of Pods.
-
-Provides stable IP and DNS.
-
-Load balances traffic.
-
-Why Use EKS Instead of Self-Managed Kubernetes?
+#### Why Use EKS Instead of Self-Managed Kubernetes?
 
 Amazon EKS removes the operational overhead of managing the control plane.
 
 AWS manages:
 
-API server
-
-etcd
-
-High availability
-
-Upgrades and patches
+- API server
+- `etcd`
+- High availability
+- Upgrades and patches
 
 This allows teams to focus on deploying and scaling applications rather than managing infrastructure.
 
-Task 2 – Kubernetes YAML Files
+### Task 2 - Kubernetes YAML Files
 
 Two separate YAML files were created:
 
-deployment.yaml
+- `deployment.yaml`
+- `service.yaml`
 
-service.yaml
+**Deployment:**
 
-Deployment:
+- 2 replicas
+- Container image: `devops-app`
+- Port `5000` exposed
 
-2 replicas
+**Service:**
 
-Container image: devops-app
-
-Port 5000 exposed
-
-Service:
-
-Type: LoadBalancer
-
-Maps port 80 → 5000
+- Type: `LoadBalancer`
+- Maps port `80 -> 5000`
 
 These YAML files are provided as configuration and were not deployed to a live cluster as per assignment requirements.
 
-Part 4: CI/CD Pipeline
+## Part 4: CI/CD Pipeline
 
 A GitHub Actions workflow was implemented in:
 
+```text
 .github/workflows/config.yaml
+```
+
 Pipeline triggers:
 
-On every push to the main branch.
+- On every push to the `main` branch
 
 Pipeline steps:
 
-Checkout source code
-
-Build Docker image
-
-Run basic test (simulated)
-
-Simulate Docker image push
+1. Checkout source code
+2. Build Docker image
+3. Run basic test (simulated)
+4. Simulate Docker image push
 
 The GitHub Actions pipeline executed successfully and showed a green status.
 
-Deploying to Kubernetes (Extension)
+### Deploying to Kubernetes (Extension)
 
 To extend this pipeline for Kubernetes deployment:
 
-Authenticate with EKS cluster
+1. Authenticate with EKS cluster
+2. Push Docker image to DockerHub or ECR
+3. Run:
 
-Push Docker image to DockerHub or ECR
-
-Run:
-
+```bash
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
+```
 
-Verify rollout status
+4. Verify rollout status
 
-Part 5: Monitoring & Logs
-Task 1 – Metrics vs Logs vs Traces
-Metrics
+## Part 5: Monitoring & Logs
+
+### Task 1 - Metrics vs Logs vs Traces
+
+#### Metrics
 
 Numerical values over time.
+
 Examples:
 
-CPU usage
-
-Memory usage
-
-Request rate
+- CPU usage
+- Memory usage
+- Request rate
 
 Used for performance monitoring and alerting.
 
-Logs
+#### Logs
 
 Detailed event records.
+
 Examples:
 
-Error messages
-
-Application startup logs
+- Error messages
+- Application startup logs
 
 Used for debugging and issue investigation.
 
-Traces
+#### Traces
 
 Track request flow across services.
 Useful in microservices architecture to measure latency and bottlenecks.
 
-Task 2 – Debugging a Crashing Kubernetes Pod
+### Task 2 - Debugging a Crashing Kubernetes Pod
 
 Steps:
 
-Check pod status:
+1. Check pod status:
 
+```bash
 kubectl get pods
+```
 
-Describe pod:
+2. Describe pod:
 
+```bash
 kubectl describe pod <pod-name>
+```
 
-Check logs:
+3. Check logs:
 
+```bash
 kubectl logs <pod-name>
+```
 
-Check resource usage:
+4. Check resource usage:
 
+```bash
 kubectl top pod
+```
 
-Exec into container (if running):
+5. Exec into container (if running):
 
+```bash
 kubectl exec -it <pod-name> -- /bin/sh
-Task 3 – Monitoring Tools for AWS EKS
+```
+
+### Task 3 - Monitoring Tools for AWS EKS
 
 Recommended tools:
 
-Prometheus – Metrics collection
-
-Grafana – Dashboard visualization
-
-AWS CloudWatch – Native logging and monitoring
-
-ELK Stack – Centralized logging
+- Prometheus - Metrics collection
+- Grafana - Dashboard visualization
+- AWS CloudWatch - Native logging and monitoring
+- ELK Stack - Centralized logging
 
 These tools together provide full visibility into cluster health and application performance.
 
-Part 6: Problem Solving Scenario
+## Part 6: Problem-Solving Scenario
 
 To set up a new microservice in AWS EKS:
 
-1. Source Code Management
+### 1. Source Code Management
 
-Code hosted on GitHub.
+- Code hosted on GitHub
+- Feature branches used
+- Main branch protected
 
-Feature branches used.
+### 2. Containerization
 
-Main branch protected.
+- Create Dockerfile
+- Build and test locally
+- Push image to DockerHub or ECR
 
-2. Containerization
-
-Create Dockerfile.
-
-Build and test locally.
-
-Push image to DockerHub or ECR.
-
-3. CI/CD Automation
+### 3. CI/CD Automation
 
 Pipeline configured to:
 
-Build image
+- Build image
+- Run tests
+- Push image
+- Deploy to EKS
 
-Run tests
+### 4. Deployment to EKS
 
-Push image
+- Use `deployment.yaml` and `service.yaml`
+- Ensure rolling updates for zero downtime
 
-Deploy to EKS
+### 5. Logging & Monitoring
 
-4. Deployment to EKS
-
-Use deployment.yaml and service.yaml
-
-Ensure rolling updates for zero downtime
-
-5. Logging & Monitoring
-
-Logs written to stdout/stderr
-
-Collected via CloudWatch or ELK
-
-Metrics monitored via Prometheus & Grafana
+- Logs written to `stdout`/`stderr`
+- Collected via CloudWatch or ELK
+- Metrics monitored via Prometheus and Grafana
 
 This ensures automated deployments, scalability, reliability, and visibility.
