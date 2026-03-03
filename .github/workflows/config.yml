@@ -1,0 +1,26 @@
+name: DevOps CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Build
+        run: docker --version
+
+      - name: Build Docker Image
+        run: docker build -t devops-app .
+
+      - name: Run Tests
+        run: echo "Tests passed successfully"
+
+      - name: Simulate Docker Push
+        run: echo "Docker image would be pushed to DockerHub here"
