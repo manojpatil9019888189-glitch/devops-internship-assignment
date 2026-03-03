@@ -1,6 +1,5 @@
-**Lemici DevOps Internship Assignment
-**
-Part 1: Version Control
+Lemici DevOps Internship Assignment
+
 Task 1 – Repository Setup Using SSH
 
 The repository was created on GitHub and configured using SSH authentication.
