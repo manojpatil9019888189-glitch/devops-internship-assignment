@@ -1,5 +1,5 @@
-Lemici DevOps Internship Assignment
-
+**Lemici DevOps Internship Assignment
+**
 Part 1: Version Control
 Task 1 – Repository Setup Using SSH
 
