@@ -81,6 +81,10 @@ The application:
 
 #### Dockerfile
 
+
+
+<img width="1914" height="966" alt="Screenshot 2026-03-03 200130" src="https://github.com/user-attachments/assets/8a5a973a-6e6a-482b-b661-892316df982f" />
+
 The application was containerized using a Dockerfile.
 
 **Key points:**
